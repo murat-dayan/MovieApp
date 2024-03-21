@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.movieapp.core.utils.Constants
+import com.example.movieapp.presentation.navigation.Navigation
 import com.example.movieapp.presentation.ui.theme.MovieAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,28 +24,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    Navigation()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    if (Constants.API_KEY != null){
-        println(Constants.API_KEY.toString())
-    }else{
-        println("api key null")
-
-
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MovieAppTheme {
-        Greeting("Android")
     }
 }
