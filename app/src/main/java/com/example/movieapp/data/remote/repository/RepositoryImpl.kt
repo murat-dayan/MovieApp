@@ -20,7 +20,7 @@ class RepositoryImpl @Inject constructor(
     override fun getAllMovies(): Flow<Resource<List<Movie>>> =  flow{
         emit(Resource.Loading())
 
-        val result = moviesApi.getAllMovies().map {
+        val result = moviesApi.getAllMovies().results.map {
             it.toMovie()
         }
         emit(Resource.Success(result))

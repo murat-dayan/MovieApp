@@ -12,6 +12,7 @@ fun MovieDto.toMovie():Movie{
         originalLanguage = original_language,
         overview = overview,
         releaseDate = release_date,
-        voteAverage = vote_average
+        voteAverage = vote_average,
+        posterPath = poster_path
     )
 }

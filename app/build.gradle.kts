@@ -87,4 +87,7 @@ dependencies {
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation ("androidx.navigation:navigation-compose:2.7.7")
+
+    // for image
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
