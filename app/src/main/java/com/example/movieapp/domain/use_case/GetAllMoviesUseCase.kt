@@ -1,8 +1,9 @@
 package com.example.movieapp.domain.use_case
 
 import com.example.movieapp.domain.repository.Repository
+import javax.inject.Inject
 
-class GetAllMoviesUseCase(
+class GetAllMoviesUseCase @Inject constructor(
     private val repository: Repository
 ) {
 

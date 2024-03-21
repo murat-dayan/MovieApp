@@ -13,7 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.movieapp.core.utils.Constants
 import com.example.movieapp.presentation.navigation.Navigation
 import com.example.movieapp.presentation.ui.theme.MovieAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

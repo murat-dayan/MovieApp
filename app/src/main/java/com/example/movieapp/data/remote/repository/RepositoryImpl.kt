@@ -11,9 +11,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
 @ViewModelScoped
-class RepositoryImpl(
+class RepositoryImpl @Inject constructor(
     private val moviesApi: MoviesApi
 ) : Repository {
     override fun getAllMovies(): Flow<Resource<List<Movie>>> =  flow{

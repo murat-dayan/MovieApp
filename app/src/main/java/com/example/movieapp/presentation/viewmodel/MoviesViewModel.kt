@@ -1,14 +1,19 @@
 package com.example.movieapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.movieapp.core.common.Resource
 import com.example.movieapp.domain.use_case.GetAllMoviesUseCase
 import com.example.movieapp.presentation.state.MovieState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class MoviesViewModel(
+@HiltViewModel
+class MoviesViewModel @Inject constructor(
     private val getAllMoviesUseCase: GetAllMoviesUseCase
 ) : ViewModel(){
 
@@ -40,7 +45,7 @@ class MoviesViewModel(
                     )
                 }
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
 }
