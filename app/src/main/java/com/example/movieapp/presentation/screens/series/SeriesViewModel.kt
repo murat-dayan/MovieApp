@@ -1,10 +1,9 @@
-package com.example.movieapp.presentation.viewmodel
+package com.example.movieapp.presentation.screens.series
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.core.common.Resource
-import com.example.movieapp.domain.use_case.GetAllMoviesUseCase
-import com.example.movieapp.presentation.state.MovieState
+import com.example.movieapp.domain.use_case.GetAllSeriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,35 +12,35 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesViewModel @Inject constructor(
-    private val getAllMoviesUseCase: GetAllMoviesUseCase
+class SeriesViewModel @Inject constructor(
+    private val getAllSeriesUseCase: GetAllSeriesUseCase
 ) : ViewModel(){
 
-    private val _movieState = MutableStateFlow(MovieState())
-    val movieState : StateFlow<MovieState>
-        get() = _movieState
+    private val _serieState = MutableStateFlow(SerieState())
+    val serieState : StateFlow<SerieState>
+        get() = _serieState
 
 
     init {
-        getAllMovies()
+        getAllSeries()
     }
 
-    private fun getAllMovies(){
+    private fun getAllSeries(){
 
-        getAllMoviesUseCase().onEach {result->
+        getAllSeriesUseCase().onEach {result->
 
             when(result){
                 is Resource.Error -> {
-                    _movieState.value = MovieState().copy(errorMsg = result.msg)
+                    _serieState.value = SerieState().copy(errorMsg = result.msg)
                 }
                 is Resource.Loading -> {
-                    _movieState.value = MovieState().copy(
+                    _serieState.value = SerieState().copy(
                         isLoading = true
                     )
                 }
                 is Resource.Success -> {
-                    _movieState.value = MovieState().copy(
-                        movies = result.data
+                    _serieState.value = SerieState().copy(
+                        series = result.data
                     )
                 }
             }

@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.screens
+package com.example.movieapp.presentation.screens.movies
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,9 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.movieapp.presentation.components.CardItem
 import com.example.movieapp.presentation.components.LoadingItem
-import com.example.movieapp.presentation.state.MovieState
+import com.example.movieapp.presentation.components.MovieItem
 
 @Composable
 fun MoviesScreen(
@@ -30,6 +29,7 @@ fun MoviesScreen(
 
     ) {
         Text(text = "Movies")
+
         /*if (movieState.movies?.isNotEmpty()!!){
             Surface (
                 color = MaterialTheme.colorScheme.outline
@@ -39,7 +39,7 @@ fun MoviesScreen(
 
                     ){
                     items(movieState.movies){movie->
-                        CardItem(
+                        MovieItem(
                             imageUrl = movie.posterPath ,
                             cardTitle = movie.title,
                             cardRate = movie.voteAverage.toString(),

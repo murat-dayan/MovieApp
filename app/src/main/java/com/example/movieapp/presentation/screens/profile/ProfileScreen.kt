@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.screens
+package com.example.movieapp.presentation.screens.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

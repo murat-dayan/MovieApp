@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.state
+package com.example.movieapp.presentation.screens.movies
 
 import com.example.movieapp.domain.model.Movie
 

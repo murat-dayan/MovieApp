@@ -1,16 +1,12 @@
 package com.example.movieapp.presentation.navigation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,11 +20,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.movieapp.presentation.screens.MoviesScreen
-import com.example.movieapp.presentation.screens.ProfileScreen
-import com.example.movieapp.presentation.screens.SearchScreen
-import com.example.movieapp.presentation.screens.SeriesScreen
-import com.example.movieapp.presentation.viewmodel.MoviesViewModel
+import com.example.movieapp.presentation.screens.movies.MoviesScreen
+import com.example.movieapp.presentation.screens.profile.ProfileScreen
+import com.example.movieapp.presentation.screens.search.SearchScreen
+import com.example.movieapp.presentation.screens.series.SeriesScreen
+import com.example.movieapp.presentation.screens.movies.MoviesViewModel
+import com.example.movieapp.presentation.screens.series.SeriesViewModel
+import com.example.movieapp.presentation.screens.series_detail.SeriesDetailScreen
 
 @Composable
 fun Navigation() {
@@ -86,13 +84,18 @@ fun Navigation() {
                 MoviesScreen(modifier = Modifier)
             }
             composable(Screen.SeriesScreen.route) {
-                SeriesScreen(modifier = Modifier)
+                val seriesViewModel = hiltViewModel<SeriesViewModel>()
+                val serieState = seriesViewModel.serieState.collectAsStateWithLifecycle().value
+                SeriesScreen(modifier = Modifier, navController = navController)
             }
             composable(Screen.SearchScreen.route) {
                 SearchScreen(modifier = Modifier)
             }
             composable(Screen.ProfileScreen.route) {
                 ProfileScreen(modifier = Modifier)
+            }
+            composable(Screen.SeriesDetailScreen.route) {
+                SeriesDetailScreen(modifier = Modifier)
             }
         }
     }

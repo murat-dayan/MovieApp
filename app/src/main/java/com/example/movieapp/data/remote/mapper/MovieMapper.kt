@@ -1,7 +1,9 @@
 package com.example.movieapp.data.remote.mapper
 
 import com.example.movieapp.data.remote.dto.MovieDto
+import com.example.movieapp.data.remote.dto.SeriesDto
 import com.example.movieapp.domain.model.Movie
+import com.example.movieapp.domain.model.Serie
 
 fun MovieDto.toMovie():Movie{
     return Movie(
@@ -14,5 +16,17 @@ fun MovieDto.toMovie():Movie{
         releaseDate = release_date,
         voteAverage = vote_average,
         posterPath = poster_path
+    )
+}
+
+fun SeriesDto.toSerie():Serie{
+    return Serie(
+        backdropPath = backdrop_path,
+        firstAirDate = first_air_date,
+        id = id,
+        name = name,
+        overview = overview,
+        posterPath = poster_path,
+        voteAverage = vote_average
     )
 }

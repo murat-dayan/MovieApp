@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.screens
+package com.example.movieapp.presentation.screens.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun SeriesScreen(
+fun SearchScreen(
     modifier: Modifier
 ) {
 
@@ -24,6 +24,6 @@ fun SeriesScreen(
 
         )
     {
-        Text(text = "Series")
+        Text(text = "Search")
     }
 }
