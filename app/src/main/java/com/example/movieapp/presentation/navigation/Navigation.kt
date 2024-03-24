@@ -59,9 +59,9 @@ fun Navigation() {
                                 painter = painterResource(id = navItem.icon),
                                 contentDescription = null,
                                 tint = if
-                                        (currentDestination?.hierarchy?.any {
-                                            it.route == navItem.route
-                                        } == true)
+                                               (currentDestination?.hierarchy?.any {
+                                        it.route == navItem.route
+                                    } == true)
                                     MaterialTheme.colorScheme.primary else Color.Black
                             )
                         },
@@ -75,7 +75,7 @@ fun Navigation() {
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = Screen.MovieScreen.route,
+            startDestination = Screen.SearchScreen.route,
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Screen.MovieScreen.route) {
@@ -86,7 +86,11 @@ fun Navigation() {
             composable(Screen.SeriesScreen.route) {
                 val seriesViewModel = hiltViewModel<SeriesViewModel>()
                 val serieState = seriesViewModel.serieState.collectAsStateWithLifecycle().value
-                SeriesScreen(modifier = Modifier, navController = navController)
+                SeriesScreen(
+                    modifier = Modifier,
+                    navController = navController,
+
+                )
             }
             composable(Screen.SearchScreen.route) {
                 SearchScreen(modifier = Modifier)

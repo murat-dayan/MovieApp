@@ -60,6 +60,8 @@ fun MoviesScreen(
                 text = movieState.errorMsg
             )
         }*/
+
+        
     }
 }
 
