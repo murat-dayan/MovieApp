@@ -1,17 +1,21 @@
 package com.example.movieapp.presentation.navigation
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -28,6 +32,7 @@ import com.example.movieapp.presentation.screens.movies.MoviesViewModel
 import com.example.movieapp.presentation.screens.series.SeriesViewModel
 import com.example.movieapp.presentation.screens.series_detail.SeriesDetailScreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
@@ -71,26 +76,24 @@ fun Navigation() {
                     )
                 }
             }
-        }
+        },
+
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = Screen.SearchScreen.route,
+            startDestination = Screen.MovieScreen.route,
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Screen.MovieScreen.route) {
-                val moviesViewModel = hiltViewModel<MoviesViewModel>()
-                val movieState = moviesViewModel.movieState.collectAsStateWithLifecycle().value
-                MoviesScreen(modifier = Modifier)
+                /*val moviesViewModel = hiltViewModel<MoviesViewModel>()
+                val movieState = moviesViewModel.movieState.collectAsStateWithLifecycle().value*/
+                MoviesScreen(modifier = Modifier )
             }
             composable(Screen.SeriesScreen.route) {
-                val seriesViewModel = hiltViewModel<SeriesViewModel>()
-                val serieState = seriesViewModel.serieState.collectAsStateWithLifecycle().value
+                /*val seriesViewModel = hiltViewModel<SeriesViewModel>()
+                val serieState = seriesViewModel.serieState.collectAsStateWithLifecycle().value*/
                 SeriesScreen(
-                    modifier = Modifier,
-                    navController = navController,
-
-                )
+                    modifier = Modifier,navController = navController,)
             }
             composable(Screen.SearchScreen.route) {
                 SearchScreen(modifier = Modifier)
@@ -104,3 +107,9 @@ fun Navigation() {
         }
     }
 }
+
+/*@Preview(showBackground = true)
+@Composable
+fun NavigationPreview() {
+    Navigation()
+}*/

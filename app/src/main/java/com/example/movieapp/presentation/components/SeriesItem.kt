@@ -1,7 +1,10 @@
 package com.example.movieapp.presentation.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -27,39 +31,52 @@ fun SeriesItem(
     modifier: Modifier = Modifier,
 ){
 
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .height(300.dp),
-        shape = MaterialTheme.shapes.small
-    ) {
-        Column (
+        Card(
             modifier = Modifier
-                .fillMaxHeight()
-                .padding(bottom = 8.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            AsyncImage(
-                model = Constants.IMAGE_URL+ imageUrl,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    ,
+                .background(Color.Transparent)
+                .height(300.dp)
+                ,
+            shape = MaterialTheme.shapes.small,
 
-            )
-            TextItem(text = seriesTitle.toString())
-            RatingItem(rate = seriesRate )
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize().background(Color.White)
+            ) {
+                AsyncImage(
+                    model = Constants.IMAGE_URL + imageUrl,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .aspectRatio(1f) // Görüntülerinizin farklı bir en-boy oranına sahip olduğunu varsayarak
+                )
+
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceBetween,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    TextItem(
+                        text = seriesTitle.toString(),
+                        modifier = Modifier.padding(start = 6.dp, top = 6.dp, bottom = 6.dp)
+                    )
+
+                    RatingItem(
+                        rate = seriesRate,
+                        modifier = Modifier.padding(start = 6.dp, bottom = 6.dp)
+                    )
+                }
+            }
+
         }
-    }
+
 }
 
-/*
-@Preview(showBackground = true, showSystemUi = true)
+/*@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SeriesItemPreview(){
     MovieAppTheme {
-        SeriesItem(imageUrl = null, seriesTitle = "null", seriesRate = "null")
+        SeriesItem(imageUrl = null, seriesTitle = "ASDSAD", seriesRate = "ASDSAD")
     }
 }*/

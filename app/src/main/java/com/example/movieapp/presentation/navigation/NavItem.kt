@@ -34,7 +34,5 @@ val listOfNavItems : List<NavItem> = listOf(
         label = "Profile",
         icon = R.drawable.ic_profile,
         route = Screen.ProfileScreen.route
-    ),
-
-
+    )
 )

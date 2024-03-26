@@ -37,11 +37,10 @@ fun TextItem(
         fontFamily = fontFamily
     )
 }
-/*
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun TextItemPreview(){
     MovieAppTheme {
         TextItem(text = "22-20-2013")
     }
-}*/
+}

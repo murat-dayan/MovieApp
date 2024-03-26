@@ -56,11 +56,10 @@ fun RatingItem(
         }
     }
 }
-/*
 @Preview
 @Composable
 fun RatingItemPreview(){
     MovieAppTheme {
         RatingItem(rate = "8.5")
     }
-}*/
+}

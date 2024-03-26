@@ -34,8 +34,7 @@ fun DateItem(
         )
     }
 }
-/*
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun DateItemPreview(){
     MovieAppTheme {
@@ -43,4 +42,4 @@ fun DateItemPreview(){
             date = "22-10-2012"
         )
     }
-}*/
+}

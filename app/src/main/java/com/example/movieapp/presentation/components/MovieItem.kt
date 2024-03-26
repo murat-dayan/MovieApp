@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -31,11 +33,15 @@ fun MovieItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .height(150.dp),
-        shape = MaterialTheme.shapes.small
+            .height(150.dp)
+            .background(Color.White),
+        shape = MaterialTheme.shapes.small,
+
 
     ) {
-        Row {
+        Row(
+            modifier=Modifier.background(Color.White)
+        ) {
             AsyncImage(
                 model = Constants.IMAGE_URL + imageUrl,
                 contentDescription = null,
@@ -67,10 +73,10 @@ fun MovieItem(
         }
     }
 }
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun CardItemPreview(){
     MovieAppTheme {
-        MovieItem(imageUrl = null, cardRate = null, cardTitle = null, cardDate = null)
+        MovieItem(imageUrl = "null", cardRate = "8.5", cardTitle = "Title", cardDate = "01-01-2022")
     }
 }

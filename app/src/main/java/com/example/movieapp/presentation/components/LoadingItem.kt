@@ -23,11 +23,10 @@ fun LoadingItem(
     }
 }
 
-/*
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun LoadingItemPreview(){
     MovieAppTheme {
         LoadingItem()
     }
-}*/
+}
