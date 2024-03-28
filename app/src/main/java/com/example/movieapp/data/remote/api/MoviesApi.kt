@@ -3,8 +3,10 @@ package com.example.movieapp.data.remote.api
 import com.example.movieapp.core.utils.Constants
 import com.example.movieapp.data.remote.dto.MovieDto
 import com.example.movieapp.data.remote.dto.ResultDto
+import com.example.movieapp.data.remote.dto.SearchModelDto
 import com.example.movieapp.data.remote.dto.SeriesDto
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface MoviesApi {
 
@@ -13,4 +15,9 @@ interface MoviesApi {
 
     @GET("discover/tv?api_key=${Constants.API_KEY}")
     suspend fun getAllSeries(): ResultDto<SeriesDto>
+
+
+    @GET("search/multi?api_key=${Constants.API_KEY}&include_adult=false&language=en-US&page=1")
+    suspend fun searchMovie(@Query("query") searchQuery:String): ResultDto<SearchModelDto>
+
 }

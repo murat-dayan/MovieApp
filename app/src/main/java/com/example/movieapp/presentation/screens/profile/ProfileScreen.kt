@@ -17,13 +17,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.movieapp.presentation.components.FavoritesItem
 import com.example.movieapp.presentation.components.TextItem
+import com.example.movieapp.presentation.navigation.Screen
 import com.example.movieapp.presentation.ui.theme.MovieAppTheme
 
 @Composable
 fun ProfileScreen(
-    modifier: Modifier
+    modifier: Modifier,
+    navController: NavController
 ) {
 
     Column(
@@ -63,9 +66,9 @@ fun ProfileScreen(
                 )
                 TextItem(
                     text = "Furkan Kılıç",
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.ExtraBold,
                     textColor = MaterialTheme.colorScheme.background,
-                    fontSize = 24.sp
+                    fontSize = 30.sp
                 )
 
             }
@@ -74,8 +77,18 @@ fun ProfileScreen(
         Column(
             modifier= Modifier.fillMaxSize().background(MaterialTheme.colorScheme.primaryContainer)
         ) {
-            FavoritesItem(favoriteName = "Favorite Movies")
-            FavoritesItem(favoriteName = "Favorite Series")
+            FavoritesItem(
+                favoriteName = "Favorite Movies",
+                onCardClick = {
+                    navController.navigate(Screen.FavoriteScreen.route)
+                }
+            )
+            FavoritesItem(
+                favoriteName = "Favorite Series",
+                onCardClick = {
+                    navController.navigate(Screen.FavoriteScreen.route)
+                }
+            )
         }
 
 

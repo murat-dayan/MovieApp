@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,15 +35,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.movieapp.presentation.components.LoadingItem
+import com.example.movieapp.presentation.components.MovieItem
+import com.example.movieapp.presentation.components.SearchItem
 import com.example.movieapp.presentation.components.TextItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    modifier: Modifier
+    modifier: Modifier,
+    searchViewModel: SearchViewModel
 ) {
 
     var searchText by remember { mutableStateOf("") }
+    val searchModelState = searchViewModel.searchModelState.collectAsStateWithLifecycle().value
+
+    println(searchModelState.isLoading)
+    if (searchModelState.seriesOrMovies?.isNotEmpty()!!) {
+        println(searchModelState.seriesOrMovies[0].name)
+    }
+
 
     Column(
         modifier = modifier
@@ -75,6 +90,7 @@ fun SearchScreen(
                     value = searchText,
                     onValueChange = {
                         searchText = it
+                        searchViewModel.searchMovie(searchText)
                     },
                     placeholder = { Text(text = "Movies Or Series") },
                     leadingIcon = {
@@ -108,7 +124,35 @@ fun SearchScreen(
             }
         }
 
-        Text(text = "asdsadsad")
+        if (searchModelState.seriesOrMovies.isNotEmpty()) {
+            println("çalıştı")
 
+            LazyColumn(
+                modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
+
+                ) {
+
+                items(searchModelState.seriesOrMovies) { serieOrMovieResult ->
+                    SearchItem(
+                        imageUrl = serieOrMovieResult.posterPath?: "",
+                        cardTitle = if (serieOrMovieResult.name.isNullOrEmpty()) serieOrMovieResult.title!! else serieOrMovieResult.name,
+                        mediaType = serieOrMovieResult.mediaType ?:"meditype"
+                    )
+                }
+            }
+        }
+
+
+        if (searchModelState.isLoading) {
+            println("loading")
+            LoadingItem()
+        }
+
+        if (!(searchModelState.errorMsg.isNullOrEmpty())) {
+            println("calıştıerror")
+            println(searchModelState.errorMsg)
+
+        }
     }
 }
+

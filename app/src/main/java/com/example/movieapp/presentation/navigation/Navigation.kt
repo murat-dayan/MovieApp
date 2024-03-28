@@ -29,6 +29,8 @@ import com.example.movieapp.presentation.screens.profile.ProfileScreen
 import com.example.movieapp.presentation.screens.search.SearchScreen
 import com.example.movieapp.presentation.screens.series.SeriesScreen
 import com.example.movieapp.presentation.screens.movies.MoviesViewModel
+import com.example.movieapp.presentation.screens.profile.favorites.FavoriteScreen
+import com.example.movieapp.presentation.screens.search.SearchViewModel
 import com.example.movieapp.presentation.screens.series.SeriesViewModel
 import com.example.movieapp.presentation.screens.series_detail.SeriesDetailScreen
 
@@ -96,13 +98,17 @@ fun Navigation() {
                     modifier = Modifier,navController = navController,)
             }
             composable(Screen.SearchScreen.route) {
-                SearchScreen(modifier = Modifier)
+                val searchViewModel = hiltViewModel<SearchViewModel>()
+                SearchScreen(modifier = Modifier, searchViewModel = searchViewModel)
             }
             composable(Screen.ProfileScreen.route) {
-                ProfileScreen(modifier = Modifier)
+                ProfileScreen(modifier = Modifier, navController = navController)
             }
             composable(Screen.SeriesDetailScreen.route) {
                 SeriesDetailScreen(modifier = Modifier)
+            }
+            composable(Screen.FavoriteScreen.route) {
+                FavoriteScreen()
             }
         }
     }

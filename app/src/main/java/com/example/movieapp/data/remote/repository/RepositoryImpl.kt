@@ -5,8 +5,10 @@ import com.example.movieapp.data.remote.api.MoviesApi
 import com.example.movieapp.data.remote.dto.MovieDto
 import com.example.movieapp.data.remote.dto.SeriesDto
 import com.example.movieapp.data.remote.mapper.toMovie
+import com.example.movieapp.data.remote.mapper.toSearchModel
 import com.example.movieapp.data.remote.mapper.toSerie
 import com.example.movieapp.domain.model.Movie
+import com.example.movieapp.domain.model.SearchModel
 import com.example.movieapp.domain.model.Serie
 import com.example.movieapp.domain.repository.Repository
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -47,4 +49,23 @@ class RepositoryImpl @Inject constructor(
         .catch {
             emit(Resource.Error(it.message.toString()))
         }
+
+    override fun searchMovie(searchQuery: String): Flow<Resource<List<SearchModel>>>  = flow{
+
+        emit(Resource.Loading())
+
+        val list = moviesApi.searchMovie(searchQuery).results
+
+        println(list[0].name)
+
+        val result = list.map {
+            it.toSearchModel()
+        }
+        emit(Resource.Success(result))
+    }.flowOn(Dispatchers.IO)
+        .catch {
+            emit(Resource.Error(it.message.toString()))
+        }
+
+
 }
