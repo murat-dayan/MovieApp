@@ -30,12 +30,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.movieapp.R
 import com.example.movieapp.presentation.components.LoadingItem
 import com.example.movieapp.presentation.components.MovieItem
 import com.example.movieapp.presentation.components.SearchItem
@@ -92,7 +94,7 @@ fun SearchScreen(
                         searchText = it
                         searchViewModel.searchMovie(searchText)
                     },
-                    placeholder = { Text(text = "Movies Or Series") },
+                    placeholder = { Text(text = stringResource(id = R.string.searchPlaceholder)) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Search,
@@ -125,7 +127,6 @@ fun SearchScreen(
         }
 
         if (searchModelState.seriesOrMovies.isNotEmpty()) {
-            println("çalıştı")
 
             LazyColumn(
                 modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
@@ -144,12 +145,10 @@ fun SearchScreen(
 
 
         if (searchModelState.isLoading) {
-            println("loading")
             LoadingItem()
         }
 
         if (!(searchModelState.errorMsg.isNullOrEmpty())) {
-            println("calıştıerror")
             println(searchModelState.errorMsg)
 
         }

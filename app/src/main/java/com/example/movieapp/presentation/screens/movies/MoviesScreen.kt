@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -110,12 +111,15 @@ fun MoviesScreenPreview(){
         Box {
 
             Surface(
-                modifier = Modifier.fillMaxWidth().height(250.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp),
                 color = MaterialTheme.colorScheme.primary
             ) {}
             Column {
                 Row(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -123,7 +127,7 @@ fun MoviesScreenPreview(){
                     TextItem(
                         fontSize = 34.sp,
                         textColor = MaterialTheme.colorScheme.primaryContainer,
-                        text = "Movies"
+                        text = stringResource(id = R.string.movies)
                     )
 
                 }
@@ -137,7 +141,9 @@ fun MoviesScreenPreview(){
                     AsyncImage(
                         model = Constants.IMAGE_URL + movieOrSerieList[pageIndex].posterPath,
                         contentDescription = null,
-                        modifier = Modifier.fillMaxWidth().height(500.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(500.dp)
                     )
 
                 }

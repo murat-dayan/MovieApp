@@ -26,10 +26,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.movieapp.R
 import com.example.movieapp.core.utils.Constants
 import com.example.movieapp.domain.model.Movie
 import com.example.movieapp.domain.model.Serie
@@ -132,7 +134,7 @@ fun SeriesScreen(
                     TextItem(
                         fontSize = 34.sp,
                         textColor = MaterialTheme.colorScheme.primaryContainer,
-                        text = "Series"
+                        text = stringResource(id = R.string.series)
                     )
 
                 }

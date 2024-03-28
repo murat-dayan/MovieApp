@@ -13,11 +13,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.movieapp.R
 import com.example.movieapp.presentation.components.FavoritesItem
 import com.example.movieapp.presentation.components.TextItem
 import com.example.movieapp.presentation.navigation.Screen
@@ -59,7 +61,7 @@ fun ProfileScreen(
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 TextItem(
-                    text = "Merhaba",
+                    text = stringResource(id = R.string.profileWelcomeText),
                     fontWeight = FontWeight.Medium,
                     textColor = MaterialTheme.colorScheme.background,
                     fontSize = 14.sp
@@ -75,16 +77,18 @@ fun ProfileScreen(
         }
 
         Column(
-            modifier= Modifier.fillMaxSize().background(MaterialTheme.colorScheme.primaryContainer)
+            modifier= Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primaryContainer)
         ) {
             FavoritesItem(
-                favoriteName = "Favorite Movies",
+                favoriteName = stringResource(id = R.string.favoriteMovies),
                 onCardClick = {
                     navController.navigate(Screen.FavoriteScreen.route)
                 }
             )
             FavoritesItem(
-                favoriteName = "Favorite Series",
+                favoriteName = stringResource(id = R.string.favoriteSeries),
                 onCardClick = {
                     navController.navigate(Screen.FavoriteScreen.route)
                 }
