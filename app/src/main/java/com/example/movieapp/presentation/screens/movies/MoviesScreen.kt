@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieapp.R
 import com.example.movieapp.core.utils.Constants
@@ -32,11 +33,13 @@ import com.example.movieapp.domain.model.Movie
 import com.example.movieapp.presentation.components.LoadingItem
 import com.example.movieapp.presentation.components.MovieItem
 import com.example.movieapp.presentation.components.TextItem
+import com.example.movieapp.presentation.navigation.Screen
 
 @Composable
 fun MoviesScreen(
     modifier: Modifier,
-    //movieState: MovieState
+    movieState: MovieState,
+    navController: NavController
 ) {
     Column(
         modifier = modifier
@@ -47,7 +50,7 @@ fun MoviesScreen(
         ) {
 
 
-        /* if (movieState.movies?.isNotEmpty()!!){
+         if (movieState.movies?.isNotEmpty()!!){
 
                 val popularList = movieState.movies.filter {
                     it.voteAverage>=7
@@ -65,7 +68,10 @@ fun MoviesScreen(
                             imageUrl = movie.posterPath ,
                             cardTitle = movie.title,
                             cardRate = movie.voteAverage.toString(),
-                            cardDate = movie.releaseDate
+                            cardDate = movie.releaseDate,
+                            onCardClick = {
+                                navController.navigate(Screen.MoviesDetailScreen.createRoute(movie.id))
+                            }
                         )
                     }
                 }
@@ -81,7 +87,7 @@ fun MoviesScreen(
             Text(
                 text = movieState.errorMsg
             )
-        }*/
+        }
 
 
     }
@@ -150,7 +156,8 @@ fun MoviesScreenPreview(){
             }
         }
     }
-}
+
+
         
 
 

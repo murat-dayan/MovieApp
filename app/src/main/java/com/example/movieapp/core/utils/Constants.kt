@@ -1,6 +1,5 @@
 package com.example.movieapp.core.utils
 
-import androidx.core.os.BuildCompat
 
 object Constants {
 

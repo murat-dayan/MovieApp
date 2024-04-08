@@ -1,6 +1,7 @@
 package com.example.movieapp.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,13 +29,17 @@ fun MovieItem(
     cardTitle:String?,
     cardRate:String?,
     cardDate:String?,
+    onCardClick: ()->Unit
 ){
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .height(150.dp)
-            .background(Color.White),
+            .background(Color.White)
+            .clickable {
+                     onCardClick()
+            },
         shape = MaterialTheme.shapes.small,
 
 
@@ -73,10 +78,10 @@ fun MovieItem(
         }
     }
 }
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun CardItemPreview(){
     MovieAppTheme {
-        MovieItem(imageUrl = "null", cardRate = "8.5", cardTitle = "Title", cardDate = "01-01-2022")
+        MovieItem(imageUrl = "null", cardRate = "8.5", cardTitle = "Title", cardDate = "01-01-2022" , onCardClick = {})
     }
-}
+}*/

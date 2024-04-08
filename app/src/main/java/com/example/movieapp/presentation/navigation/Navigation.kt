@@ -20,16 +20,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.movieapp.presentation.screens.movies.MoviesScreen
 import com.example.movieapp.presentation.screens.profile.ProfileScreen
 import com.example.movieapp.presentation.screens.search.SearchScreen
 import com.example.movieapp.presentation.screens.series.SeriesScreen
 import com.example.movieapp.presentation.screens.movies.MoviesViewModel
-import com.example.movieapp.presentation.screens.profile.favorites.FavoriteScreen
+import com.example.movieapp.presentation.screens.favorites.FavoriteScreen
+import com.example.movieapp.presentation.screens.movies_detail.MoviesDetailScreen
 import com.example.movieapp.presentation.screens.search.SearchViewModel
 import com.example.movieapp.presentation.screens.series.SeriesViewModel
 import com.example.movieapp.presentation.screens.series_detail.SeriesDetailScreen
@@ -87,9 +90,9 @@ fun Navigation() {
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Screen.MovieScreen.route) {
-                /*val moviesViewModel = hiltViewModel<MoviesViewModel>()
-                val movieState = moviesViewModel.movieState.collectAsStateWithLifecycle().value*/
-                MoviesScreen(modifier = Modifier )
+                val moviesViewModel = hiltViewModel<MoviesViewModel>()
+                val movieState = moviesViewModel.movieState.collectAsStateWithLifecycle().value
+                MoviesScreen(modifier = Modifier , movieState = movieState , navController )
             }
             composable(Screen.SeriesScreen.route) {
                 /*val seriesViewModel = hiltViewModel<SeriesViewModel>()
@@ -109,6 +112,13 @@ fun Navigation() {
             }
             composable(Screen.FavoriteScreen.route) {
                 FavoriteScreen()
+            }
+            composable(
+                Screen.MoviesDetailScreen.route,
+                arguments = listOf(navArgument("id"){type = NavType.IntType})
+            ) {backStackEntry->
+                val id = backStackEntry.arguments?.getInt("id") ?: return@composable
+                MoviesDetailScreen(movieId = id)
             }
         }
     }
