@@ -2,12 +2,12 @@ package com.example.movieapp.data.remote.repository
 
 import com.example.movieapp.core.common.Resource
 import com.example.movieapp.data.remote.api.MoviesApi
-import com.example.movieapp.data.remote.dto.MovieDto
-import com.example.movieapp.data.remote.dto.SeriesDto
 import com.example.movieapp.data.remote.mapper.toMovie
+import com.example.movieapp.data.remote.mapper.toMovieDetailModel
 import com.example.movieapp.data.remote.mapper.toSearchModel
 import com.example.movieapp.data.remote.mapper.toSerie
 import com.example.movieapp.domain.model.Movie
+import com.example.movieapp.domain.model.MovieDetailModel
 import com.example.movieapp.domain.model.SearchModel
 import com.example.movieapp.domain.model.Serie
 import com.example.movieapp.domain.repository.Repository
@@ -61,6 +61,18 @@ class RepositoryImpl @Inject constructor(
         val result = list.map {
             it.toSearchModel()
         }
+        emit(Resource.Success(result))
+    }.flowOn(Dispatchers.IO)
+        .catch {
+            emit(Resource.Error(it.message.toString()))
+        }
+
+    override fun getMovieDetail(movie_Id: Int): Flow<Resource<MovieDetailModel>> = flow{
+
+        emit(Resource.Loading())
+
+        val result = moviesApi.getMovieDetail(movie_Id).toMovieDetailModel()
+
         emit(Resource.Success(result))
     }.flowOn(Dispatchers.IO)
         .catch {

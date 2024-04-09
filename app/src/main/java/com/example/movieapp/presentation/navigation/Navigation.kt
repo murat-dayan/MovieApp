@@ -33,6 +33,7 @@ import com.example.movieapp.presentation.screens.series.SeriesScreen
 import com.example.movieapp.presentation.screens.movies.MoviesViewModel
 import com.example.movieapp.presentation.screens.favorites.FavoriteScreen
 import com.example.movieapp.presentation.screens.movies_detail.MoviesDetailScreen
+import com.example.movieapp.presentation.screens.movies_detail.MoviesDetailViewModel
 import com.example.movieapp.presentation.screens.search.SearchViewModel
 import com.example.movieapp.presentation.screens.series.SeriesViewModel
 import com.example.movieapp.presentation.screens.series_detail.SeriesDetailScreen
@@ -118,7 +119,8 @@ fun Navigation() {
                 arguments = listOf(navArgument("id"){type = NavType.IntType})
             ) {backStackEntry->
                 val id = backStackEntry.arguments?.getInt("id") ?: return@composable
-                MoviesDetailScreen(movieId = id)
+                val moviesDetailViewModel = hiltViewModel<MoviesDetailViewModel>()
+                MoviesDetailScreen(movieId = id, moviesDetailViewModel = moviesDetailViewModel)
             }
         }
     }

@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,6 +33,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,7 +48,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.example.movieapp.R
+import com.example.movieapp.core.utils.Constants
 import com.example.movieapp.presentation.components.ActorsActressItem
 import com.example.movieapp.presentation.components.DateItem
 import com.example.movieapp.presentation.components.IconItem
@@ -58,16 +63,22 @@ import com.example.movieapp.presentation.ui.theme.MovieAppTheme
 @Composable
 fun MoviesDetailScreen(
     modifier: Modifier = Modifier,
-    movieId:Int
+    movieId:Int,
+    moviesDetailViewModel: MoviesDetailViewModel
 ) {
 
-    println(movieId)
 
     var verticalScrollState = rememberScrollState()
 
     var showIcons by remember {
         mutableStateOf(false)
     }
+
+    LaunchedEffect(key1 = movieId) {
+        moviesDetailViewModel.getMovieDetail(movieId)
+    }
+    
+    var movieDetailState = moviesDetailViewModel.movieDetailState.collectAsStateWithLifecycle().value
 
 
     Surface(
@@ -77,154 +88,169 @@ fun MoviesDetailScreen(
             modifier = Modifier.fillMaxSize()
 
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.joker_image),
-                    contentDescription = null,
+            
+            if (movieDetailState.movieDetailModel != null){
+                val movieDetailModel = movieDetailState.movieDetailModel!!
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(290.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .height(300.dp)
                 ) {
-                    IconItem(
-                        onIconClick = { /*TODO*/ },
-                        color = Color.Blue,
-                        iconTintColor = Color.White,
-                        icon = Icons.Default.ArrowBack,
-
-                        )
-                    IconItem(
-                        onIconClick = { /*TODO*/ },
-                        color = Color.White,
-                        iconTintColor = Color.Blue,
-                        icon = Icons.Default.Favorite,
-
-                        )
-                }
-                RatingItem(
-                    rate = "8.5",
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(start = 16.dp)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .verticalScroll(verticalScrollState)
-                    .padding(horizontal = 10.dp)
-            ) {
-                Spacer(modifier = Modifier.height(10.dp))
-                TextItem(text = "Breaking", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Spacer(modifier = Modifier.height(10.dp))
-                TextItem(text = "Drama, Crime")
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconItem(
-                        onIconClick = { /*TODO*/ },
-                        color = Color.White,
-                        iconTintColor = Color.Blue,
-                        icon = Icons.Default.PlayArrow
+                    AsyncImage(
+                        model = Constants.IMAGE_URL + movieDetailModel.backdropPath,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(290.dp),
+                        contentScale = ContentScale.Crop
                     )
-                    TextItem(text = "102 min")
-                    Spacer(modifier = Modifier.width(10.dp))
-                    DateItem(date = "22-11-2232")
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    //horizontalArrangement = Arrangement.SpaceEvenly
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         IconItem(
-                            onIconClick = {
-                                showIcons = !showIcons
-                            },
+                            onIconClick = { /*TODO*/ },
                             color = Color.Blue,
                             iconTintColor = Color.White,
-                            icon = Icons.Default.Star,
-                            modifier = Modifier.padding(horizontal = 5.dp),
-                            size = 50
-                        )
-                        TextItem(text = "Score", fontSize = 14.sp)
+                            icon = Icons.Default.ArrowBack,
+
+                            )
+                        IconItem(
+                            onIconClick = { /*TODO*/ },
+                            color = Color.White,
+                            iconTintColor = Color.Blue,
+                            icon = Icons.Default.Favorite,
+
+                            )
                     }
-                    if (showIcons) {
-                        Divider(
-                            color = Color.Gray,
-                            modifier = Modifier
-                                .height(60.dp)  //fill the max height
-                                .width(1.dp)
-                        )
-                        for (i in 0..4) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                IconItem(
-                                    onIconClick = { /*TODO*/ },
-                                    color = Color.White,
-                                    iconTintColor = Color.Blue,
-                                    icon = Icons.Default.Star,
-                                    modifier = Modifier.padding(horizontal = 5.dp),
-                                    size = 50,
-                                    iconSize = 50
-                                )
-                                TextItem(text = "", fontSize = 14.sp)
-                            }
-
-
+                    RatingItem(
+                        rate = movieDetailModel.voteAverage.toString(),
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(start = 16.dp)
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .verticalScroll(verticalScrollState)
+                        .padding(horizontal = 10.dp)
+                ) {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    TextItem(text = movieDetailModel.originalTitle, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Row {
+                        for (genre in movieDetailModel.genres){
+                            TextItem(text = genre.name +",")
                         }
-                    } else {
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconItem(
+                            onIconClick = { /*TODO*/ },
+                            color = Color.White,
+                            iconTintColor = Color.Blue,
+                            icon = Icons.Default.PlayArrow
+                        )
+                        TextItem(text = "${movieDetailModel.runtime} min")
+                        Spacer(modifier = Modifier.width(10.dp))
+                        DateItem(date = movieDetailModel.releaseDate)
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        //horizontalArrangement = Arrangement.SpaceEvenly
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             IconItem(
                                 onIconClick = {
+                                    showIcons = !showIcons
                                 },
                                 color = Color.Blue,
                                 iconTintColor = Color.White,
-                                icon = Icons.Default.Share,
+                                icon = Icons.Default.Star,
                                 modifier = Modifier.padding(horizontal = 5.dp),
                                 size = 50
                             )
-                            TextItem(text = "Share", fontSize = 14.sp)
+                            TextItem(text = "Score", fontSize = 14.sp)
+                        }
+                        if (showIcons) {
+                            Divider(
+                                color = Color.Gray,
+                                modifier = Modifier
+                                    .height(60.dp)  //fill the max height
+                                    .width(1.dp)
+                            )
+                            for (i in 0..4) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    IconItem(
+                                        onIconClick = { /*TODO*/ },
+                                        color = Color.White,
+                                        iconTintColor = Color.Blue,
+                                        icon = Icons.Default.Star,
+                                        modifier = Modifier.padding(horizontal = 5.dp),
+                                        size = 50,
+                                        iconSize = 50
+                                    )
+                                    TextItem(text = "", fontSize = 14.sp)
+                                }
+
+
+                            }
+                        } else {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                IconItem(
+                                    onIconClick = {
+                                    },
+                                    color = Color.Blue,
+                                    iconTintColor = Color.White,
+                                    icon = Icons.Default.Share,
+                                    modifier = Modifier.padding(horizontal = 5.dp),
+                                    size = 50
+                                )
+                                TextItem(text = "Share", fontSize = 14.sp)
+                            }
+
                         }
 
+
                     }
-
-
+                    Text(
+                        text = movieDetailModel.overview,
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                    TextItem(
+                        text = "Actors/Actress",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        textColor = Color.Black
+                    )
+                    ActorsActressItem(
+                        imageUrl = "https://upload.wikimedia.org/wikipedia/commons/e/ea/Heath_Ledger_%282%29.jpg",
+                        actorActressName = "Heath LEdger"
+                    )
                 }
-                Text(
-                    text = "overview movie",
-                    modifier = Modifier.padding(vertical = 10.dp)
-                )
-                TextItem(
-                    text = "Actors/Actress",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    textColor = Color.Black
-                )
-                ActorsActressItem(
-                    imageUrl = "https://upload.wikimedia.org/wikipedia/commons/e/ea/Heath_Ledger_%282%29.jpg",
-                    actorActressName = "Heath LEdger"
-                )
+            }
+            if (movieDetailState.isLoading){
+                CircularProgressIndicator()
+            }
+            if (!(movieDetailState.errorMsg.isNullOrEmpty())){
+                Text(text = movieDetailState.errorMsg.toString())
+                println(movieDetailState.errorMsg.toString())
             }
         }
 
