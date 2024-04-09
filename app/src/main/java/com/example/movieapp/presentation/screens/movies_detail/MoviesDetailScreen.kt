@@ -49,22 +49,26 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieapp.R
 import com.example.movieapp.core.utils.Constants
 import com.example.movieapp.presentation.components.ActorsActressItem
 import com.example.movieapp.presentation.components.DateItem
+import com.example.movieapp.presentation.components.DetailToolBar
 import com.example.movieapp.presentation.components.IconItem
 import com.example.movieapp.presentation.components.RatingItem
 import com.example.movieapp.presentation.components.TextItem
+import com.example.movieapp.presentation.navigation.Screen
 import com.example.movieapp.presentation.ui.theme.MovieAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesDetailScreen(
     modifier: Modifier = Modifier,
-    movieId:Int,
-    moviesDetailViewModel: MoviesDetailViewModel
+    movieId: Int,
+    moviesDetailViewModel: MoviesDetailViewModel,
+    navController: NavController
 ) {
 
 
@@ -77,8 +81,9 @@ fun MoviesDetailScreen(
     LaunchedEffect(key1 = movieId) {
         moviesDetailViewModel.getMovieDetail(movieId)
     }
-    
-    var movieDetailState = moviesDetailViewModel.movieDetailState.collectAsStateWithLifecycle().value
+
+    var movieDetailState =
+        moviesDetailViewModel.movieDetailState.collectAsStateWithLifecycle().value
 
 
     Surface(
@@ -88,49 +93,16 @@ fun MoviesDetailScreen(
             modifier = Modifier.fillMaxSize()
 
         ) {
-            
-            if (movieDetailState.movieDetailModel != null){
+
+            if (movieDetailState.movieDetailModel != null) {
                 val movieDetailModel = movieDetailState.movieDetailModel!!
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
-                ) {
-                    AsyncImage(
-                        model = Constants.IMAGE_URL + movieDetailModel.backdropPath,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(290.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        IconItem(
-                            onIconClick = { /*TODO*/ },
-                            color = Color.Blue,
-                            iconTintColor = Color.White,
-                            icon = Icons.Default.ArrowBack,
-
-                            )
-                        IconItem(
-                            onIconClick = { /*TODO*/ },
-                            color = Color.White,
-                            iconTintColor = Color.Blue,
-                            icon = Icons.Default.Favorite,
-
-                            )
-                    }
-                    RatingItem(
-                        rate = movieDetailModel.voteAverage.toString(),
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .padding(start = 16.dp)
+                movieDetailModel.backdropPath?.let {
+                    DetailToolBar(
+                        imageUrl = it,
+                        rateText = movieDetailModel.voteAverage.toString(),
+                        onBackIconClick = {
+                            navController.navigate(Screen.MovieScreen.route)
+                        }
                     )
                 }
                 Column(
@@ -140,11 +112,15 @@ fun MoviesDetailScreen(
                         .padding(horizontal = 10.dp)
                 ) {
                     Spacer(modifier = Modifier.height(10.dp))
-                    TextItem(text = movieDetailModel.originalTitle, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    TextItem(
+                        text = movieDetailModel.originalTitle,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
                     Spacer(modifier = Modifier.height(10.dp))
                     Row {
-                        for (genre in movieDetailModel.genres){
-                            TextItem(text = genre.name +",")
+                        for (genre in movieDetailModel.genres) {
+                            TextItem(text = genre.name + ",")
                         }
                     }
                     Spacer(modifier = Modifier.height(10.dp))
@@ -245,10 +221,10 @@ fun MoviesDetailScreen(
                     )
                 }
             }
-            if (movieDetailState.isLoading){
+            if (movieDetailState.isLoading) {
                 CircularProgressIndicator()
             }
-            if (!(movieDetailState.errorMsg.isNullOrEmpty())){
+            if (!(movieDetailState.errorMsg.isNullOrEmpty())) {
                 Text(text = movieDetailState.errorMsg.toString())
                 println(movieDetailState.errorMsg.toString())
             }

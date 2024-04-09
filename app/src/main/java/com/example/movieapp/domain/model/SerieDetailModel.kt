@@ -1,13 +1,15 @@
 package com.example.movieapp.domain.model
 
 
-data class MovieDetailModel(
+data class SerieDetailModel(
     val id: Int,
     val backdropPath: String?,
     val genres: List<GenreModel>,
-    val originalTitle: String,
+    val name: String,
+    val numberOfEpisodes: Int,
+    val numberOfSeasons: Int,
     val overview: String,
-    val releaseDate: String,
+    val status: String,
     val voteAverage: Double,
-    val runtime: Int,
+    val originalName: String,
 )

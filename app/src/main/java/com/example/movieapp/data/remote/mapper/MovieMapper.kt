@@ -3,12 +3,14 @@ package com.example.movieapp.data.remote.mapper
 import com.example.movieapp.data.remote.dto.MovieDetailDto
 import com.example.movieapp.data.remote.dto.MovieDto
 import com.example.movieapp.data.remote.dto.SearchModelDto
+import com.example.movieapp.data.remote.dto.SerieDetailDto
 import com.example.movieapp.data.remote.dto.SeriesDto
 import com.example.movieapp.domain.model.GenreModel
 import com.example.movieapp.domain.model.Movie
 import com.example.movieapp.domain.model.MovieDetailModel
 import com.example.movieapp.domain.model.SearchModel
 import com.example.movieapp.domain.model.Serie
+import com.example.movieapp.domain.model.SerieDetailModel
 
 fun MovieDto.toMovie():Movie{
     return Movie(
@@ -58,6 +60,22 @@ fun MovieDetailDto.toMovieDetailModel():MovieDetailModel{
         releaseDate = release_date,
         voteAverage = vote_average,
         runtime = runtime
+    )
+}
+
+fun SerieDetailDto.toSerieDetailModel() : SerieDetailModel{
+    return  SerieDetailModel(
+        id = id,
+        backdropPath = backdrop_path,
+        genres = genres,
+        name = name,
+        numberOfEpisodes = number_of_episodes,
+        numberOfSeasons = number_of_seasons,
+        overview=overview,
+        status = status,
+        voteAverage = vote_average,
+        originalName = original_name,
+
     )
 }
 

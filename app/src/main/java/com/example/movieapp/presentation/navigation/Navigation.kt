@@ -37,6 +37,7 @@ import com.example.movieapp.presentation.screens.movies_detail.MoviesDetailViewM
 import com.example.movieapp.presentation.screens.search.SearchViewModel
 import com.example.movieapp.presentation.screens.series.SeriesViewModel
 import com.example.movieapp.presentation.screens.series_detail.SeriesDetailScreen
+import com.example.movieapp.presentation.screens.series_detail.SeriesDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +85,7 @@ fun Navigation() {
             }
         },
 
-    ) { paddingValues ->
+        ) { paddingValues ->
         NavHost(
             navController = navController,
             startDestination = Screen.MovieScreen.route,
@@ -93,34 +94,53 @@ fun Navigation() {
             composable(Screen.MovieScreen.route) {
                 val moviesViewModel = hiltViewModel<MoviesViewModel>()
                 val movieState = moviesViewModel.movieState.collectAsStateWithLifecycle().value
-                MoviesScreen(modifier = Modifier , movieState = movieState , navController )
+                MoviesScreen(modifier = Modifier, movieState = movieState, navController)
             }
             composable(Screen.SeriesScreen.route) {
-                /*val seriesViewModel = hiltViewModel<SeriesViewModel>()
-                val serieState = seriesViewModel.serieState.collectAsStateWithLifecycle().value*/
+                val seriesViewModel = hiltViewModel<SeriesViewModel>()
+                val serieState = seriesViewModel.serieState.collectAsStateWithLifecycle().value
                 SeriesScreen(
-                    modifier = Modifier,navController = navController,)
+                    modifier = Modifier, navController = navController, serieState = serieState
+                )
             }
             composable(Screen.SearchScreen.route) {
                 val searchViewModel = hiltViewModel<SearchViewModel>()
-                SearchScreen(modifier = Modifier, searchViewModel = searchViewModel)
+                SearchScreen(
+                    modifier = Modifier,
+                    searchViewModel = searchViewModel,
+                    navController = navController
+                )
             }
             composable(Screen.ProfileScreen.route) {
                 ProfileScreen(modifier = Modifier, navController = navController)
             }
-            composable(Screen.SeriesDetailScreen.route) {
-                SeriesDetailScreen(modifier = Modifier)
+            composable(
+                Screen.SeriesDetailScreen.route,
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id") ?: return@composable
+                val seriesDetailViewModel = hiltViewModel<SeriesDetailViewModel>()
+                SeriesDetailScreen(
+                    modifier = Modifier,
+                    serie_Id = id,
+                    seriesDetailViewModel = seriesDetailViewModel,
+                    navController = navController
+                )
             }
             composable(Screen.FavoriteScreen.route) {
                 FavoriteScreen()
             }
             composable(
                 Screen.MoviesDetailScreen.route,
-                arguments = listOf(navArgument("id"){type = NavType.IntType})
-            ) {backStackEntry->
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) { backStackEntry ->
                 val id = backStackEntry.arguments?.getInt("id") ?: return@composable
                 val moviesDetailViewModel = hiltViewModel<MoviesDetailViewModel>()
-                MoviesDetailScreen(movieId = id, moviesDetailViewModel = moviesDetailViewModel)
+                MoviesDetailScreen(
+                    movieId = id,
+                    moviesDetailViewModel = moviesDetailViewModel,
+                    navController = navController
+                )
             }
         }
     }

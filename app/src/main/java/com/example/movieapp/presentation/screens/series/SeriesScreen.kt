@@ -43,7 +43,7 @@ import com.example.movieapp.presentation.navigation.Screen
 @Composable
 fun SeriesScreen(
     modifier: Modifier,
-    //serieState: SerieState,
+    serieState: SerieState,
     navController: NavController
 ) {
 
@@ -56,7 +56,7 @@ fun SeriesScreen(
 
         )
     {
-        /* if (serieState.series?.isNotEmpty()!!) {
+         if (serieState.series?.isNotEmpty()!!) {
 
              LazyVerticalGrid(
                  modifier = Modifier
@@ -78,7 +78,10 @@ fun SeriesScreen(
                          SeriesItem(
                              imageUrl = serie.posterPath,
                              seriesTitle = serie.name,
-                             seriesRate = serie.voteAverage.toString()
+                             seriesRate = serie.voteAverage.toString(),
+                             onCardClick = {
+                                 navController.navigate(Screen.SeriesDetailScreen.createRoute(serie.id))
+                             }
                          )
                      }
                  }
@@ -95,7 +98,7 @@ fun SeriesScreen(
          Text(
              text = serieState.errorMsg
          )
-     }*/
+     }
 
     }
 
@@ -157,4 +160,4 @@ fun SeriesScreen(
             }
         }
     }
-}
+

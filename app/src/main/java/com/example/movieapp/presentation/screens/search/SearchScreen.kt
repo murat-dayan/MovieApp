@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
@@ -37,17 +38,20 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.example.movieapp.R
 import com.example.movieapp.presentation.components.LoadingItem
 import com.example.movieapp.presentation.components.MovieItem
 import com.example.movieapp.presentation.components.SearchItem
 import com.example.movieapp.presentation.components.TextItem
+import com.example.movieapp.presentation.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     modifier: Modifier,
-    searchViewModel: SearchViewModel
+    searchViewModel: SearchViewModel,
+    navController: NavController
 ) {
 
     var searchText by remember { mutableStateOf("") }
@@ -79,7 +83,8 @@ fun SearchScreen(
                 text = "Search",
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
-                textColor = MaterialTheme.colorScheme.background
+                textColor = MaterialTheme.colorScheme.background,
+                modifier = Modifier.padding(50.dp)
             )
 
             Column(
@@ -137,7 +142,16 @@ fun SearchScreen(
                     SearchItem(
                         imageUrl = serieOrMovieResult.posterPath?: "",
                         cardTitle = if (serieOrMovieResult.name.isNullOrEmpty()) serieOrMovieResult.title!! else serieOrMovieResult.name,
-                        mediaType = serieOrMovieResult.mediaType ?:"meditype"
+                        mediaType = serieOrMovieResult.mediaType ?:"meditype",
+                        onCardClick = {
+                            if (serieOrMovieResult.mediaType!!.contains("tv")){
+                                navController.navigate(Screen.SeriesDetailScreen.createRoute(serieOrMovieResult.id))
+                            }else if (serieOrMovieResult.mediaType!!.contains("movie")){
+                                navController.navigate(Screen.MoviesDetailScreen.createRoute(serieOrMovieResult.id))
+                            }else{
+                                println("this is not movie or tv series")
+                            }
+                        }
                     )
                 }
             }

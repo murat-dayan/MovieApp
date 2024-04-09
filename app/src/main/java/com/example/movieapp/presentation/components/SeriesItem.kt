@@ -1,6 +1,7 @@
 package com.example.movieapp.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,12 +30,16 @@ fun SeriesItem(
     seriesTitle:String?,
     seriesRate:String?,
     modifier: Modifier = Modifier,
+    onCardClick: ()->Unit
 ){
 
         Card(
             modifier = Modifier
                 .background(Color.Transparent)
                 .height(300.dp)
+                .clickable {
+                           onCardClick()
+                }
                 ,
             shape = MaterialTheme.shapes.small,
 

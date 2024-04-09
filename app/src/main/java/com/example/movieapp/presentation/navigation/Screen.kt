@@ -5,7 +5,9 @@ sealed class Screen(val route:String) {
     object SeriesScreen : Screen("series_screen")
     object SearchScreen : Screen("search_screen")
     object ProfileScreen : Screen("profile_screen")
-    object SeriesDetailScreen : Screen("series_detail_screen")
+    object SeriesDetailScreen : Screen("series_detail_screen/{id}"){
+        fun createRoute(id:Int) = "series_detail_screen/$id"
+    }
 
     object FavoriteScreen: Screen("favorite_screen")
 

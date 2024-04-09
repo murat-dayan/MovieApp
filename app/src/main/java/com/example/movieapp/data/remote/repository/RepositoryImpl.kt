@@ -6,10 +6,12 @@ import com.example.movieapp.data.remote.mapper.toMovie
 import com.example.movieapp.data.remote.mapper.toMovieDetailModel
 import com.example.movieapp.data.remote.mapper.toSearchModel
 import com.example.movieapp.data.remote.mapper.toSerie
+import com.example.movieapp.data.remote.mapper.toSerieDetailModel
 import com.example.movieapp.domain.model.Movie
 import com.example.movieapp.domain.model.MovieDetailModel
 import com.example.movieapp.domain.model.SearchModel
 import com.example.movieapp.domain.model.Serie
+import com.example.movieapp.domain.model.SerieDetailModel
 import com.example.movieapp.domain.repository.Repository
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
@@ -72,6 +74,18 @@ class RepositoryImpl @Inject constructor(
         emit(Resource.Loading())
 
         val result = moviesApi.getMovieDetail(movie_Id).toMovieDetailModel()
+
+        emit(Resource.Success(result))
+    }.flowOn(Dispatchers.IO)
+        .catch {
+            emit(Resource.Error(it.message.toString()))
+        }
+
+    override fun getSerieDetail(serie_Id: Int): Flow<Resource<SerieDetailModel>> = flow{
+
+        emit(Resource.Loading())
+
+        val result = moviesApi.getSerieDetail(serie_Id).toSerieDetailModel()
 
         emit(Resource.Success(result))
     }.flowOn(Dispatchers.IO)

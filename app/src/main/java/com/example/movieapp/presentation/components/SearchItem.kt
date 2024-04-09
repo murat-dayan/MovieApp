@@ -1,6 +1,7 @@
 package com.example.movieapp.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,7 +32,8 @@ fun SearchItem(
     modifier: Modifier = Modifier,
     imageUrl: String,
     cardTitle: String,
-    mediaType: String
+    mediaType: String,
+    onCardClick: () -> Unit
 ) {
 
     Card(
@@ -39,7 +41,10 @@ fun SearchItem(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .height(150.dp)
-            .background(Color.White),
+            .background(Color.White)
+            .clickable {
+                onCardClick()
+            },
         shape = MaterialTheme.shapes.small,
 
 
@@ -109,6 +114,6 @@ fun SearchItem(
 @Composable
 fun SearchItemPreview() {
     MovieAppTheme {
-        SearchItem(modifier = Modifier, imageUrl = "", cardTitle = "Joker", "tv")
+        SearchItem(modifier = Modifier, imageUrl = "", cardTitle = "Joker", "tv", onCardClick = {})
     }
 }
