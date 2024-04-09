@@ -131,7 +131,7 @@ fun MoviesScreenPreview(){
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TextItem(
-                        fontSize = 34.sp,
+                        fontSize = 33.sp,
                         textColor = MaterialTheme.colorScheme.primaryContainer,
                         text = stringResource(id = R.string.movies)
                     )
