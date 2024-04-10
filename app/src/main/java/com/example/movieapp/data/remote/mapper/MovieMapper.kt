@@ -1,11 +1,12 @@
 package com.example.movieapp.data.remote.mapper
 
+import com.example.movieapp.data.remote.dto.CastDto
 import com.example.movieapp.data.remote.dto.MovieDetailDto
 import com.example.movieapp.data.remote.dto.MovieDto
 import com.example.movieapp.data.remote.dto.SearchModelDto
 import com.example.movieapp.data.remote.dto.SerieDetailDto
 import com.example.movieapp.data.remote.dto.SeriesDto
-import com.example.movieapp.domain.model.GenreModel
+import com.example.movieapp.domain.model.CastModel
 import com.example.movieapp.domain.model.Movie
 import com.example.movieapp.domain.model.MovieDetailModel
 import com.example.movieapp.domain.model.SearchModel
@@ -78,5 +79,17 @@ fun SerieDetailDto.toSerieDetailModel() : SerieDetailModel{
 
     )
 }
+
+fun CastDto.toCastModel() : CastModel{
+    return CastModel(
+        character = character,
+        id = id,
+        knownForDepartment = known_for_department,
+        name = name,
+        profilePath = profile_path
+    )
+}
+
+
 
 

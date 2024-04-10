@@ -2,11 +2,13 @@ package com.example.movieapp.data.remote.repository
 
 import com.example.movieapp.core.common.Resource
 import com.example.movieapp.data.remote.api.MoviesApi
+import com.example.movieapp.data.remote.mapper.toCastModel
 import com.example.movieapp.data.remote.mapper.toMovie
 import com.example.movieapp.data.remote.mapper.toMovieDetailModel
 import com.example.movieapp.data.remote.mapper.toSearchModel
 import com.example.movieapp.data.remote.mapper.toSerie
 import com.example.movieapp.data.remote.mapper.toSerieDetailModel
+import com.example.movieapp.domain.model.CastModel
 import com.example.movieapp.domain.model.Movie
 import com.example.movieapp.domain.model.MovieDetailModel
 import com.example.movieapp.domain.model.SearchModel
@@ -86,6 +88,34 @@ class RepositoryImpl @Inject constructor(
         emit(Resource.Loading())
 
         val result = moviesApi.getSerieDetail(serie_Id).toSerieDetailModel()
+
+        emit(Resource.Success(result))
+    }.flowOn(Dispatchers.IO)
+        .catch {
+            emit(Resource.Error(it.message.toString()))
+        }
+
+    override fun getSeriesCast(serie_Id: Int): Flow<Resource<List<CastModel>>> = flow{
+
+        emit(Resource.Loading())
+
+        val result = moviesApi.getSeriesCast(serie_Id).cast.map {castDto->
+            castDto.toCastModel()
+        }
+
+        emit(Resource.Success(result))
+    }.flowOn(Dispatchers.IO)
+        .catch {
+            emit(Resource.Error(it.message.toString()))
+        }
+
+    override fun getMoviesCast(movie_Id: Int): Flow<Resource<List<CastModel>>> = flow{
+
+        emit(Resource.Loading())
+
+        val result = moviesApi.getMoviesCast(movie_Id).cast.map {castDto->
+            castDto.toCastModel()
+        }
 
         emit(Resource.Success(result))
     }.flowOn(Dispatchers.IO)

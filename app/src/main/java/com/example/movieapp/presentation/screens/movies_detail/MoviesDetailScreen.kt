@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -57,6 +59,7 @@ import com.example.movieapp.presentation.components.ActorsActressItem
 import com.example.movieapp.presentation.components.DateItem
 import com.example.movieapp.presentation.components.DetailToolBar
 import com.example.movieapp.presentation.components.IconItem
+import com.example.movieapp.presentation.components.LoadingItem
 import com.example.movieapp.presentation.components.RatingItem
 import com.example.movieapp.presentation.components.TextItem
 import com.example.movieapp.presentation.navigation.Screen
@@ -80,10 +83,13 @@ fun MoviesDetailScreen(
 
     LaunchedEffect(key1 = movieId) {
         moviesDetailViewModel.getMovieDetail(movieId)
+        moviesDetailViewModel.getMovieCast(movieId)
     }
 
     var movieDetailState =
         moviesDetailViewModel.movieDetailState.collectAsStateWithLifecycle().value
+
+    val movieCastState = moviesDetailViewModel.movieCastState.collectAsStateWithLifecycle().value
 
 
     Surface(
@@ -94,8 +100,9 @@ fun MoviesDetailScreen(
 
         ) {
 
-            if (movieDetailState.movieDetailModel != null) {
+            if (movieDetailState.movieDetailModel != null && !(movieCastState.castList.isNullOrEmpty())) {
                 val movieDetailModel = movieDetailState.movieDetailModel!!
+                val castList = movieCastState.castList
                 movieDetailModel.backdropPath?.let {
                     DetailToolBar(
                         imageUrl = it,
@@ -215,18 +222,28 @@ fun MoviesDetailScreen(
                         fontSize = 20.sp,
                         textColor = Color.Black
                     )
-                    ActorsActressItem(
-                        imageUrl = "https://upload.wikimedia.org/wikipedia/commons/e/ea/Heath_Ledger_%282%29.jpg",
-                        actorActressName = "Heath LEdger"
-                    )
+                    LazyRow {
+                        items(castList){castModel->
+                            ActorsActressItem(
+                                imageUrl = castModel.profilePath?:"" ,
+                                actorActressName = castModel.name
+                            )
+                        }
+                    }
                 }
             }
-            if (movieDetailState.isLoading) {
-                CircularProgressIndicator()
+            if (movieDetailState.isLoading || movieCastState.isLoading) {
+                LoadingItem()
             }
-            if (!(movieDetailState.errorMsg.isNullOrEmpty())) {
-                Text(text = movieDetailState.errorMsg.toString())
+            if (!(movieDetailState.errorMsg.isNullOrEmpty() || movieCastState.errorMsg.isNullOrEmpty())) {
+                movieDetailState.errorMsg?.let {
+                    Text(text = it.toString())
+                }
                 println(movieDetailState.errorMsg.toString())
+                movieCastState.errorMsg?.let {
+                    Text(text = it.toString())
+                }
+                println(movieCastState.errorMsg.toString())
             }
         }
 

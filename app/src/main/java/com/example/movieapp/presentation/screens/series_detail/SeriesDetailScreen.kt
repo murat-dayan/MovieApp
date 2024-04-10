@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -40,14 +42,15 @@ import com.example.movieapp.presentation.components.ActorsActressItem
 import com.example.movieapp.presentation.components.DateItem
 import com.example.movieapp.presentation.components.DetailToolBar
 import com.example.movieapp.presentation.components.IconItem
+import com.example.movieapp.presentation.components.LoadingItem
 import com.example.movieapp.presentation.components.TextItem
 import com.example.movieapp.presentation.navigation.Screen
 
 @Composable
 fun SeriesDetailScreen(
     modifier: Modifier,
-    serie_Id:Int,
-    navController:NavController,
+    serie_Id: Int,
+    navController: NavController,
     seriesDetailViewModel: SeriesDetailViewModel
 ) {
 
@@ -59,10 +62,12 @@ fun SeriesDetailScreen(
 
     LaunchedEffect(key1 = serie_Id) {
         seriesDetailViewModel.getSerieDetail(serie_Id)
+        seriesDetailViewModel.getSerieCast(serie_Id)
     }
 
     var serieDetailState =
         seriesDetailViewModel.serieDetailState.collectAsStateWithLifecycle().value
+    var serieCastState = seriesDetailViewModel.serieCastState.collectAsStateWithLifecycle().value
 
 
 
@@ -75,8 +80,9 @@ fun SeriesDetailScreen(
 
         ) {
 
-            if (serieDetailState.serieDetailModel != null) {
+            if (serieDetailState.serieDetailModel != null && !(serieCastState.castList.isNullOrEmpty())) {
                 val serieDetailModel = serieDetailState.serieDetailModel!!
+                val castList = serieCastState.castList
                 serieDetailModel.backdropPath?.let {
                     DetailToolBar(
                         imageUrl = it,
@@ -105,19 +111,6 @@ fun SeriesDetailScreen(
                         }
                     }
                     Spacer(modifier = Modifier.height(10.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconItem(
-                            onIconClick = { /*TODO*/ },
-                            color = Color.White,
-                            iconTintColor = Color.Blue,
-                            icon = Icons.Default.PlayArrow
-                        )
-
-                    }
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -188,22 +181,41 @@ fun SeriesDetailScreen(
                         text = serieDetailModel.overview,
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        TextItem(
+                            text = "Episodes: ${serieDetailModel.numberOfEpisodes.toString()}",
+                            textColor = Color.White,
+                            backgroundColor = Color.Black
+                        )
+                        TextItem(
+                            text = "Seasons: ${serieDetailModel.numberOfSeasons.toString()}",
+                            textColor = Color.White,
+                            backgroundColor = Color.Black
+                        )
+                    }
                     TextItem(
                         text = "Actors/Actress",
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
                         textColor = Color.Black
                     )
-                    ActorsActressItem(
-                        imageUrl = "https://upload.wikimedia.org/wikipedia/commons/e/ea/Heath_Ledger_%282%29.jpg",
-                        actorActressName = "Heath LEdger"
-                    )
+                    LazyRow {
+                        items(castList!!){castModel->
+                            ActorsActressItem(
+                                imageUrl = castModel.profilePath?:"" ,
+                                actorActressName = castModel.name
+                            )
+                        }
+                    }
                 }
             }
-            if (serieDetailState.isLoading) {
-                CircularProgressIndicator()
+            if (serieDetailState.isLoading || serieCastState.isLoading) {
+                LoadingItem()
             }
-            if (!(serieDetailState.errorMsg.isNullOrEmpty())) {
+            if (!(serieDetailState.errorMsg.isNullOrEmpty() || serieCastState.errorMsg.isNullOrEmpty())) {
                 Text(text = serieDetailState.errorMsg.toString())
                 println(serieDetailState.errorMsg.toString())
             }

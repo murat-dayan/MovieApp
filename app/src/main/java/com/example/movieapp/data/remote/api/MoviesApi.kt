@@ -1,6 +1,7 @@
 package com.example.movieapp.data.remote.api
 
 import com.example.movieapp.core.utils.Constants
+import com.example.movieapp.data.remote.dto.CastListDto
 import com.example.movieapp.data.remote.dto.MovieDetailDto
 import com.example.movieapp.data.remote.dto.MovieDto
 import com.example.movieapp.data.remote.dto.ResultDto
@@ -28,6 +29,12 @@ interface MoviesApi {
 
     @GET("https://api.themoviedb.org/3/tv/{serie_Id}?api_key=${Constants.API_KEY}")
     suspend fun getSerieDetail(@Path("serie_Id") serie_Id:Int): SerieDetailDto
+
+    @GET("tv/{serie_Id}/credits?api_key=${Constants.API_KEY}")
+    suspend fun getSeriesCast(@Path("serie_Id") serie_Id:Int) : CastListDto
+
+    @GET("movie/{movie_Id}/credits?api_key=${Constants.API_KEY}")
+    suspend fun getMoviesCast(@Path("movie_Id") movie_Id: Int) : CastListDto
 
 
 

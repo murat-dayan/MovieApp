@@ -31,7 +31,7 @@ fun ActorsActressItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
-            model = /*Constants.IMAGE_URL + */imageUrl,
+            model = Constants.IMAGE_URL + imageUrl,
             contentDescription = null,
             modifier = Modifier
                 .size(100.dp)

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.movieapp.core.common.Resource
 import com.example.movieapp.domain.use_case.GetMovieDetailUseCase
 import com.example.movieapp.domain.use_case.GetSerieDetailUseCase
+import com.example.movieapp.domain.use_case.GetSeriesCastUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,12 +15,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SeriesDetailViewModel @Inject constructor(
-    private val getSerieDetailUseCase: GetSerieDetailUseCase
+    private val getSerieDetailUseCase: GetSerieDetailUseCase,
+    private val getSeriesCastUseCase: GetSeriesCastUseCase
 ) : ViewModel() {
 
     private val _serieDetailState = MutableStateFlow(SerieDetailState())
     val serieDetailState : StateFlow<SerieDetailState>
         get() = _serieDetailState
+
+
+    private val _serieCastState = MutableStateFlow(SerieCastState())
+    val serieCastState : StateFlow<SerieCastState>
+        get() = _serieCastState
 
 
 
@@ -42,6 +49,31 @@ class SeriesDetailViewModel @Inject constructor(
                 is Resource.Success -> {
                     _serieDetailState.value = SerieDetailState().copy(
                         serieDetailModel = result.data
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
+
+    }
+
+    fun getSerieCast(serie_Id:Int){
+
+        getSeriesCastUseCase(serie_Id).onEach {result->
+
+            when(result){
+                is Resource.Error -> {
+                    _serieCastState.value = SerieCastState().copy(
+                        errorMsg = result.msg
+                    )
+                }
+                is Resource.Loading -> {
+                    _serieCastState.value = SerieCastState().copy(
+                        isLoading = true
+                    )
+                }
+                is Resource.Success -> {
+                    _serieCastState.value = SerieCastState().copy(
+                        castList = result.data
                     )
                 }
             }
