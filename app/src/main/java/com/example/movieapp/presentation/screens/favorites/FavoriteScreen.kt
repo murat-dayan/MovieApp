@@ -18,7 +18,7 @@ import com.example.movieapp.presentation.ui.theme.MovieAppTheme
 fun FavoriteScreen(){
 
     Column {
-        Text(text = "dasdas")
+        Text(text = "Favorites")
     }
 
 
