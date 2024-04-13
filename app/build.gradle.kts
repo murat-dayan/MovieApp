@@ -10,9 +10,14 @@ plugins {
     id ("kotlin-kapt")
 }
 
+
+
 android {
     namespace = "com.example.movieapp"
     compileSdk = 34
+
+
+
 
     defaultConfig {
         applicationId = "com.example.movieapp"
@@ -24,6 +29,19 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val keyStoreFile = project.rootProject.file("apikeys.properties")
+        val properties = Properties()
+        properties.load(keyStoreFile.inputStream())
+
+        val apiKey = properties.getProperty("API_KEY")?:""
+        buildConfigField(
+            type = "String",
+            name = "API_KEY",
+            value = apiKey
+        )
+
+
 
     }
 
