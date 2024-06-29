@@ -24,3 +24,5 @@ Technologies used in the project:
 <img src="https://github.com/murat-dayan/MovieApp/assets/64108119/0609ef14-cfbd-4477-973b-8b7f0ed842df" alt="project-screenshot" width="300" height="800/">
 <img src="https://github.com/murat-dayan/MovieApp/assets/64108119/378d289c-2c63-4bc2-869a-b31ab5d40ebd" alt="project-screenshot" width="300" height="800/">
 
+NOTE: The UI design of this application is inspired by the Adesso Turkey Compose mp Sample app.
+
